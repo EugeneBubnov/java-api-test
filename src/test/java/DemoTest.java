@@ -1,4 +1,3 @@
-import com.github.javafaker.Faker;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
@@ -22,7 +21,7 @@ public class DemoTest extends BaseTest {
     @DisplayName("Проверить жизненный цикл пользователя по api")
     void testUserLifecycle() {
         step("Зарегистрировать нового пользователя", () -> {
-            Response registrationResponse = authService.register(testUser);
+            Response registrationResponse = userService.register(testUser);
             assertEquals(201, registrationResponse.getStatusCode());
 
             Map<String, Object> registrationMap = registrationResponse.jsonPath().getMap("$");

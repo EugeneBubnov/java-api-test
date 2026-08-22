@@ -12,70 +12,55 @@ import static io.restassured.RestAssured.given;
 public class UserService {
     private final String BASE_URL = ProjectProps.getBaseUrl();
 
-    public Response getAllUsers() {
-        return step("Получить список всех пользователей. Отправить запрос: [GET] /api/user/all", () -> {
+    public Response register(User user) {
+        return step("Зарегистрировать нового пользователя. Отправить запрос: [POST] /api/auth/reg", () -> {
+            JSONObject payload = new JSONObject();
+            payload.put("username", user.getUsername());
+            payload.put("password", user.getPassword());
+
             return given()
                     .contentType(ContentType.JSON)
-                    .log().all()
-                    .when()
-                    .get(BASE_URL + "/api/user/all")
-                    .prettyPeek();
+                    .body(payload.toString())
+                    .post(BASE_URL + "/api/auth/reg");
         });
+    }
+
+    public Response getAllUsers() {
+        return step("Получить список всех пользователей. Отправить запрос: [GET] /api/user/all",
+                () -> given()
+                        .contentType(ContentType.JSON)
+                        .when()
+                        .get(BASE_URL + "/api/user/all")
+        );
     }
 
     public Response getUserProfile(User user) {
-        return step("Получить информацию из профиля. Отправить запрос: [GET] /api/user/" + user.getUuid(), () -> {
-            return given()
-                    .contentType(ContentType.JSON)
-                    .header("Authorization", "Basic " + user.getBasicToken())
-                    .log().all()
-                    .when()
-                    .get(BASE_URL + "/api/user/" + user.getUuid())
-                    .prettyPeek();
-        });
-    }
-
-    public Response changeUserPassword(User user, String newPassword) {
-        return step("Обновить пароль. Отправить запрос: [PUT] /api/user/password", () -> {
-            JSONObject payload = new JSONObject();
-            payload.put("old_password", user.getPassword());
-            payload.put("new_password1", newPassword);
-            payload.put("new_password2", newPassword);
-
-            return given()
-                    .contentType(ContentType.JSON)
-                    .header("Authorization", "Basic " + user.getBasicToken())
-                    .body(payload.toString())
-                    .log().all()
-                    .when()
-                    .put(BASE_URL + "/api/user/password")
-                    .prettyPeek();
-        });
+        return step("Получить информацию из профиля. Отправить запрос: [GET] /api/user/" + user.getUuid(),
+                () -> given()
+                        .contentType(ContentType.JSON)
+                        .header("Authorization", "Basic " + user.getBasicToken())
+                        .when()
+                        .get(BASE_URL + "/api/user/" + user.getUuid())
+        );
     }
 
     public Response updateUserProfile(User user, JSONObject payload) {
         return step("Обновить профиль. Отправить запрос: [PATCH] /api/user/update/profile/" + user.getUuid(),
-                () -> {
-                    return given()
-                            .contentType(ContentType.JSON)
-                            .header("Authorization", "Basic " + user.getBasicToken())
-                            .body(payload.toString())
-                            .log().all()
-                            .when()
-                            .patch(BASE_URL + "/api/user/update/profile/" + user.getUuid())
-                            .prettyPeek();
-                });
+                () -> given()
+                        .contentType(ContentType.JSON)
+                        .header("Authorization", "Basic " + user.getBasicToken())
+                        .body(payload.toString())
+                        .when().patch(BASE_URL + "/api/user/update/profile/" + user.getUuid())
+        );
     }
 
     public Response deleteUser(User user) {
-        return step("Удалить пользователя. Отправить запрос: [DELETE] /api/user/delete", () -> {
-            return given()
-                    .contentType(ContentType.JSON)
-                    .header("Authorization", "Basic " + user.getBasicToken())
-                    .log().all()
-                    .when()
-                    .delete(BASE_URL + "/api/user/delete")
-                    .prettyPeek();
-        });
+        return step("Удалить пользователя. Отправить запрос: [DELETE] /api/user/delete",
+                () -> given()
+                        .contentType(ContentType.JSON)
+                        .header("Authorization", "Basic " + user.getBasicToken())
+                        .when()
+                        .delete(BASE_URL + "/api/user/delete")
+        );
     }
 }
