@@ -1,29 +1,27 @@
 package models;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Objects;
 
 public class User extends AbsUser {
-    private String uuid;
-    private String token;
+    private Integer uuid;
 
     public User(String username, String password, String firstName, String lastName, String birthDate, String email) {
         super(username, password, firstName, lastName, birthDate, email);
     }
 
-    public String getUuid() {
+    public Integer getUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
+    public void setUuid(Integer uuid) {
         this.uuid = uuid;
     }
 
     public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+        String prepareTokenData = getUsername() + ":" + getPassword();
+        return Base64.getEncoder().encodeToString(prepareTokenData.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override

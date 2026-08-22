@@ -10,18 +10,25 @@ public class BaseTest {
     protected AuthService authService = new AuthService();
     protected UserService userService = new UserService();
 
-    protected User physical;
+    protected User testUser;
 
     @BeforeEach
     void setUp() {
-        Faker faker = new Faker(Locale.of("ru"));
-        physical = new User(
-                faker.name().username(),
-                faker.animal().name(),
-                faker.name().firstName(),
-                faker.name().lastName(),
-                String.valueOf(faker.date().birthday(0, 100)),
-                faker.internet().emailAddress()
+        Faker defaultFaker = new Faker();
+        Faker ruFaker = new Faker(Locale.of("ru"));
+
+        String username = new StringBuilder()
+                .append(defaultFaker.name().username())
+                .append(defaultFaker.number().randomDigit())
+                .toString();
+
+        testUser = new User(
+                username,
+                ruFaker.animal().name(),
+                ruFaker.name().firstName(),
+                ruFaker.name().lastName(),
+                String.valueOf(ruFaker.date().birthday(0, 100)),
+                ruFaker.internet().emailAddress()
         );
     }
 }
