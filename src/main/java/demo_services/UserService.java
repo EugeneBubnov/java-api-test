@@ -17,6 +17,7 @@ public class UserService {
 
         return given()
                 .contentType(ContentType.JSON)
+                .log().all()
                 .when()
                 .get(BASE_URL + "/api/user/all")
                 .prettyPeek();
@@ -47,6 +48,7 @@ public class UserService {
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Basic " + user.getToken())
                 .body(payload.toString())
+                .log().all()
                 .when()
                 .put(BASE_URL + "/api/user/password")
                 .prettyPeek();
@@ -59,6 +61,7 @@ public class UserService {
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Basic " + user.getToken())
                 .body(payload.toString())
+                .log().all()
                 .when()
                 .patch(BASE_URL + "api/user/update/profile/" + user.getUuid())
                 .prettyPeek();
@@ -70,6 +73,7 @@ public class UserService {
         return given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Basic " + user.getToken())
+                .log().all()
                 .when()
                 .patch(BASE_URL + "/api/user/delete")
                 .prettyPeek();
