@@ -29,7 +29,6 @@ public class AuthService {
 
     public Response getAuthToken(User user) {
         return step("Получить токен авторизации. Отправить запрос: [POST] /api/auth/token", () -> {
-
             JSONObject payload = new JSONObject();
             payload.put("username", user.getUsername());
             payload.put("password", user.getPassword());

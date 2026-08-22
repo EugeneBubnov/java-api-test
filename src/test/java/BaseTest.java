@@ -12,9 +12,11 @@ public class BaseTest {
 
     protected User testUser;
 
+    protected Faker defaultFaker;
+
     @BeforeEach
     void setUp() {
-        Faker defaultFaker = new Faker();
+        defaultFaker = new Faker();
         Faker ruFaker = new Faker(Locale.of("ru"));
 
         String username = new StringBuilder()
@@ -28,7 +30,7 @@ public class BaseTest {
                 ruFaker.name().firstName(),
                 ruFaker.name().lastName(),
                 String.valueOf(ruFaker.date().birthday(0, 100)),
-                ruFaker.internet().emailAddress()
+                defaultFaker.internet().emailAddress()
         );
     }
 }

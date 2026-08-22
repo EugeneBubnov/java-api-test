@@ -6,6 +6,10 @@ import java.util.Objects;
 
 public class User extends AbsUser {
     private Integer uuid;
+    private String country;
+    private String city;
+    private String familyStatus;
+    private String gender;
 
     public User(String username, String password, String firstName, String lastName, String birthDate, String email) {
         super(username, password, firstName, lastName, birthDate, email);
@@ -19,10 +23,43 @@ public class User extends AbsUser {
         this.uuid = uuid;
     }
 
-    public String getToken() {
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getFamilyStatus() {
+        return familyStatus;
+    }
+
+    public void setFamilyStatus(String familyStatus) {
+        this.familyStatus = familyStatus;
+    }
+
+    public String getBasicToken() {
         String prepareTokenData = getUsername() + ":" + getPassword();
         return Base64.getEncoder().encodeToString(prepareTokenData.getBytes(StandardCharsets.UTF_8));
     }
+
 
     @Override
     public void showInfo() {

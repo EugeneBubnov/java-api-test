@@ -27,7 +27,7 @@ public class UserService {
         return step("Получить информацию из профиля. Отправить запрос: [GET] /api/user/" + user.getUuid(), () -> {
             return given()
                     .contentType(ContentType.JSON)
-                    .header("Authorization", "Basic " + user.getToken())
+                    .header("Authorization", "Basic " + user.getBasicToken())
                     .log().all()
                     .when()
                     .get(BASE_URL + "/api/user/" + user.getUuid())
@@ -39,12 +39,12 @@ public class UserService {
         return step("Обновить пароль. Отправить запрос: [PUT] /api/user/password", () -> {
             JSONObject payload = new JSONObject();
             payload.put("old_password", user.getPassword());
-            payload.put("new_password", newPassword);
             payload.put("new_password1", newPassword);
+            payload.put("new_password2", newPassword);
 
             return given()
                     .contentType(ContentType.JSON)
-                    .header("Authorization", "Basic " + user.getToken())
+                    .header("Authorization", "Basic " + user.getBasicToken())
                     .body(payload.toString())
                     .log().all()
                     .when()
@@ -58,7 +58,7 @@ public class UserService {
                 () -> {
                     return given()
                             .contentType(ContentType.JSON)
-                            .header("Authorization", "Basic " + user.getToken())
+                            .header("Authorization", "Basic " + user.getBasicToken())
                             .body(payload.toString())
                             .log().all()
                             .when()
@@ -71,7 +71,7 @@ public class UserService {
         return step("Удалить пользователя. Отправить запрос: [DELETE] /api/user/delete", () -> {
             return given()
                     .contentType(ContentType.JSON)
-                    .header("Authorization", "Basic " + user.getToken())
+                    .header("Authorization", "Basic " + user.getBasicToken())
                     .log().all()
                     .when()
                     .delete(BASE_URL + "/api/user/delete")
