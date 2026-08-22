@@ -158,8 +158,8 @@ public class DemoTest extends BaseTest {
              * P.S. если его обновить до отправки запроса, то upload упадёт c 401 из-за невалидного токена,
              *      который состоит из закодированных в base64: username:password
              */
-            testUser.setUsername(newUsername);//Обновляем после апдейта. Токен это base64 от username:password
-
+            testUser.setUsername(newUsername);
+            
             Map<String, Object> updMap = updateResponse.jsonPath().getMap("$");
             assertAll("Ответ: /api/user/update/profile/" + testUser.getUuid(),
                     () -> assertEquals(
