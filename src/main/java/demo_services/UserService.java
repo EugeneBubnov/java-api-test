@@ -21,6 +21,7 @@ public class UserService {
             return given()
                     .contentType(ContentType.JSON)
                     .body(payload.toString())
+                    .when()
                     .post(BASE_URL + "/api/auth/reg");
         });
     }
@@ -50,7 +51,8 @@ public class UserService {
                         .contentType(ContentType.JSON)
                         .header("Authorization", "Basic " + user.getBasicToken())
                         .body(payload.toString())
-                        .when().patch(BASE_URL + "/api/user/update/profile/" + user.getUuid())
+                        .when()
+                        .patch(BASE_URL + "/api/user/update/profile/" + user.getUuid())
         );
     }
 
