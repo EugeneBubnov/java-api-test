@@ -60,6 +60,5 @@ public abstract class AbsUser {
         this.email = email;
     }
 
-    public void showInfo() {
-    }
+    public abstract void showInfo();
 }
