@@ -4,23 +4,71 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Objects;
 
-public class User extends AbsUser {
-    private Integer uuid;
+public class User {
+    private String username;
+    private final String password;
+    private final String firstName;
+    private final String lastName;
+    private String birthDate;
+    private String email;
+    private Integer id;
     private String country;
     private String city;
     private String familyStatus;
     private String gender;
+    private boolean deleted;
 
     public User(String username, String password, String firstName, String lastName, String birthDate, String email) {
-        super(username, password, firstName, lastName, birthDate, email);
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.email = email;
     }
 
-    public Integer getUuid() {
-        return uuid;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUuid(Integer uuid) {
-        this.uuid = uuid;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getGender() {
@@ -55,15 +103,17 @@ public class User extends AbsUser {
         this.familyStatus = familyStatus;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public String getBasicToken() {
         String prepareTokenData = getUsername() + ":" + getPassword();
         return Base64.getEncoder().encodeToString(prepareTokenData.getBytes(StandardCharsets.UTF_8));
-    }
-
-
-    @Override
-    public void showInfo() {
-        System.out.println(this);
     }
 
     @Override
@@ -73,7 +123,7 @@ public class User extends AbsUser {
                 "', username='" + getUsername() +
                 "', email='" + getEmail() +
                 "', birthDate='" + getBirthDate() +
-                "', uuid='" + getUuid() +
+                "', uuid='" + getId() +
                 "'}";
     }
 

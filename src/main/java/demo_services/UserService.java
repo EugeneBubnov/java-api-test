@@ -4,13 +4,12 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import models.User;
 import org.json.JSONObject;
-import utils.ProjectProps;
 
 import static io.qameta.allure.Allure.*;
 import static io.restassured.RestAssured.given;
 
 public class UserService {
-    private final String BASE_URL = ProjectProps.getBaseUrl();
+    private final String BASE_URL = "https://social.qakrotov.com";
 
     public Response register(User user) {
         return step("Зарегистрировать нового пользователя. Отправить запрос: [POST] /api/auth/reg", () -> {
@@ -36,23 +35,23 @@ public class UserService {
     }
 
     public Response getUserProfile(User user) {
-        return step("Получить информацию из профиля. Отправить запрос: [GET] /api/user/" + user.getUuid(),
+        return step("Получить информацию из профиля. Отправить запрос: [GET] /api/user/" + user.getId(),
                 () -> given()
                         .contentType(ContentType.JSON)
                         .header("Authorization", "Basic " + user.getBasicToken())
                         .when()
-                        .get(BASE_URL + "/api/user/" + user.getUuid())
+                        .get(BASE_URL + "/api/user/" + user.getId())
         );
     }
 
     public Response updateUserProfile(User user, JSONObject payload) {
-        return step("Обновить профиль. Отправить запрос: [PATCH] /api/user/update/profile/" + user.getUuid(),
+        return step("Обновить профиль. Отправить запрос: [PATCH] /api/user/update/profile/" + user.getId(),
                 () -> given()
                         .contentType(ContentType.JSON)
                         .header("Authorization", "Basic " + user.getBasicToken())
                         .body(payload.toString())
                         .when()
-                        .patch(BASE_URL + "/api/user/update/profile/" + user.getUuid())
+                        .patch(BASE_URL + "/api/user/update/profile/" + user.getId())
         );
     }
 

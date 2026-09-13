@@ -71,16 +71,16 @@ public class DemoTest extends BaseTest {
                             "В last_name должна быть пустая строка"
                     )
             );
-            testUser.setUuid((Integer) currentUser.get("id"));
+            testUser.setId((Integer) currentUser.get("id"));
         });
         step("Проверить данные в профиле нового пользователя", () -> {
             Response userProfileResponse = userService.getUserProfile(testUser);
             assertEquals(200, userProfileResponse.getStatusCode());
 
             Map<String, Object> userProfileMap = userProfileResponse.jsonPath().getMap("$");
-            assertAll("Ответ: /api/user/" + testUser.getUuid(),
+            assertAll("Ответ: /api/user/" + testUser.getId(),
                     () -> assertEquals(
-                            testUser.getUuid(), userProfileMap.get("id"),
+                            testUser.getId(), userProfileMap.get("id"),
                             "Не соответствует id"
                     ),
                     () -> assertEquals(
@@ -161,7 +161,7 @@ public class DemoTest extends BaseTest {
             testUser.setUsername(newUsername);
             
             Map<String, Object> updMap = updateResponse.jsonPath().getMap("$");
-            assertAll("Ответ: /api/user/update/profile/" + testUser.getUuid(),
+            assertAll("Ответ: /api/user/update/profile/" + testUser.getId(),
                     () -> assertEquals(
                             testUser.getCountry(), updMap.get("country"),
                             "Не обновилось поле country"
@@ -203,6 +203,7 @@ public class DemoTest extends BaseTest {
         step("Удалить пользователя", () -> {
             Response deleteResponse = userService.deleteUser(testUser);
             assertEquals(204, deleteResponse.getStatusCode());
+            testUser.setDeleted(true);
         });
     }
 }
